@@ -7,9 +7,12 @@ export default async function handler(req, res) {
     await authMiddleware(req, res, async () => {
         try {
             await connectToMongoose();
-            const favorites = await Favorite.find({ userId: req.userId }).populate("productId");
-            const products = favorites.map(f => f.productId);
-            res.status(200).json(products);
+            const favorites = await Favorite.find({ userId: req.userId });
+            const productIds = favorites
+                .map(f => f.productId)
+                .filter(id => id !== null)
+                .map(id => id.toString());
+            res.status(200).json(productIds);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
