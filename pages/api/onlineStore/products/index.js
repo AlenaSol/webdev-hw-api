@@ -2,7 +2,10 @@ import { connectToMongoose } from "@/libs/onlineStore";
 import { Product } from "@/model/onlineStore/schema";
 
 export default async function handler(req, res) {
-    if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+    if (req.method !== "GET") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
+
     try {
         await connectToMongoose();
 
@@ -14,9 +17,10 @@ export default async function handler(req, res) {
             color,
             roomType,
             deliveryDays,
-            sortBy = "createdAt",
-            order = "desc",
+            sortBy,
+            order,
             special,
+            sort: sortParam,
         } = req.query;
 
         const filter = {};
@@ -28,12 +32,12 @@ export default async function handler(req, res) {
         }
 
         if (color) {
-            const colors = color.split(",").map(c => c.trim());
+            const colors = color.split(",").map((c) => c.trim());
             filter.colors = { $in: colors };
         }
 
         if (roomType) {
-            const types = roomType.split(",").map(t => t.trim());
+            const types = roomType.split(",").map((t) => t.trim());
             filter.roomTypes = { $in: types };
         }
 
@@ -47,8 +51,27 @@ export default async function handler(req, res) {
             filter.isSpecial = false;
         }
 
-        const sort = {};
-        sort[sortBy] = order === "asc" ? 1 : -1;
+        // Построение сортировки
+        let sort = {};
+        if (sortParam) {
+            switch (sortParam) {
+                case "popularity":
+                    sort = { popularity: -1 };
+                    break;
+                case "newest":
+                    sort = { createdAt: -1 };
+                    break;
+                case "oldest":
+                    sort = { createdAt: 1 };
+                    break;
+                default:
+                    sort = { createdAt: -1 };
+            }
+        } else {
+            const sortField = sortBy || "createdAt";
+            const sortOrder = order === "asc" ? 1 : -1;
+            sort = { [sortField]: sortOrder };
+        }
 
         const skip = (Number(page) - 1) * Number(limit);
         const total = await Product.countDocuments(filter);

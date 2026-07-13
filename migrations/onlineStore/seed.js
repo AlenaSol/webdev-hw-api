@@ -58,6 +58,12 @@ const productsData = [
         image: "https://i.postimg.cc/d3sPSFqz/Rectangle-23.jpg",
     },
     {
+        name: "Пуф мягкий",
+        description: "Круглый пуф с велюровой обивкой, используется как сиденье или подставка.",
+        price: 11000,
+        image: "https://i.postimg.cc/tJqQmbXr/Rectangle-22-2.jpg",
+    },
+    {
         name: "Кресло LUNAR",
         description: "Прекрасно переносит солнечные лучи, перепады влажности и любые осадки",
         price: 40000,
@@ -109,13 +115,7 @@ const productsData = [
         name: "Вешалка напольная",
         description: "Металлическая вешалка с крючками и полкой для обуви.",
         price: 22000,
-        image: "https://i.postimg.cc/tJqQmbXr/Rectangle-22-2.jpg",
-    },
-    {
-        name: "Пуф мягкий",
-        description: "Круглый пуф с велюровой обивкой, используется как сиденье или подставка.",
-        price: 11000,
-        image: "https://i.postimg.cc/tJqQmbXr/Rectangle-22-2.jpg",
+        image: "https://i.postimg.cc/tJqQmbXr/Rectangle-23-2.jpg",
     },
     {
         name: "Журнальный столик",
