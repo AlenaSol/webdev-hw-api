@@ -163,7 +163,7 @@ GET /products
 
 **Пример запроса с фильтрацией:**
 ```
-/products?priceMin=10000&priceMax=50000&color=белый,серый&roomType=гостиная&deliveryDays=14&sortBy=price&order=asc&page=1&limit=5
+/products?priceMin=10000&priceMax=50000&color=белый,серый&roomType=гостиная&deliveryDays=14&sort=popularity&page=1&limit=5
 ```
 
 **Ответ (200):** объект с пагинацией и отфильтрованным массивом товаров.

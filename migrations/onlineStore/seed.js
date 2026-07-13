@@ -137,13 +137,15 @@ export async function seedOnlineStore() {
         const deliveryDays = randomInt(3, 21);
         const popularity = randomInt(0, 1000);
 
+        const randomDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000);
+
         return {
             ...item,
             colors,
             roomTypes,
             deliveryDays,
             popularity,
-            createdAt: new Date(),
+            createdAt: randomDate,
             oldPrice: item.oldPrice || null,
         };
     });
