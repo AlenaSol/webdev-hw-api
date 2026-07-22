@@ -134,7 +134,7 @@ export async function seedOnlineStore() {
     const products = productsData.map((item) => {
         const colors = randomFromArray(colorsList, 1, 4);
         const roomTypes = randomFromArray(roomTypesList, 1, 2);
-        const deliveryDays = randomInt(3, 21);
+        const deliveryDays = randomInt(0, 7);
         const popularity = randomInt(0, 1000);
 
         const randomDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000);
