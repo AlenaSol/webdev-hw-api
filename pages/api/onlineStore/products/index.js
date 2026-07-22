@@ -6,6 +6,11 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
+    const { force } = req.query;
+    if (force === 'true') {
+        return res.status(500).json({ error: "Сервер не отвечает" });
+    }
+
     try {
         await connectToMongoose();
 
@@ -31,14 +36,18 @@ export default async function handler(req, res) {
             if (priceMax) filter.price.$lte = Number(priceMax);
         }
 
+        // Регистронезависимый поиск по цветам
         if (color) {
-            const colors = color.split(",").map((c) => c.trim());
-            filter.colors = { $in: colors };
+            const colorValues = color.split(",").map(c => c.trim());
+            const colorRegexes = colorValues.map(c => new RegExp(`^${c}$`, 'i'));
+            filter.colors = { $in: colorRegexes };
         }
 
+        // Регистронезависимый поиск по типам комнат
         if (roomType) {
-            const types = roomType.split(",").map((t) => t.trim());
-            filter.roomTypes = { $in: types };
+            const roomValues = roomType.split(",").map(r => r.trim());
+            const roomRegexes = roomValues.map(r => new RegExp(`^${r}$`, 'i'));
+            filter.roomTypes = { $in: roomRegexes };
         }
 
         if (deliveryDays) {
@@ -51,7 +60,7 @@ export default async function handler(req, res) {
             filter.isSpecial = false;
         }
 
-        // Построение сортировки
+        // Сортировка
         let sort = {};
         if (sortParam) {
             switch (sortParam) {

@@ -152,5 +152,5 @@ export async function seedOnlineStore() {
 
     await Product.insertMany(products);
     console.log("Добавлено товаров:", products.length);
-    return { success: true, message: `База успешно заполнена ${products.length} товарами` };
+    return { success: true, message: `База успешно заполнена ${products.length} товарами. Ура!` };
 }
